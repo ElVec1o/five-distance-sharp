@@ -1,5 +1,7 @@
 # five-distance-sharp
 
+[![DOI](https://zenodo.org/badge/1258602739.svg)](https://doi.org/10.5281/zenodo.20532459)
+
 Sharp finite-distance theorems for Kronecker sequences on higher-dimensional tori, in Lean 4 /
 Mathlib, by Vico Bonfioli. Apache-2.0.
 
@@ -47,6 +49,15 @@ to be tight there) — not a formalization gap.
 lake exe cache get
 lake build
 ```
+
+## Citation
+
+If you use this work, please cite it via its Zenodo DOI:
+
+> Vico Bonfioli. *Sharp five-distance and sup-norm gap theorems for Kronecker sequences (Lean 4 / Mathlib)*. Zenodo. <https://doi.org/10.5281/zenodo.20532459>
+
+`10.5281/zenodo.20532459` is the concept DOI (always resolves to the latest version); the `v1.0.0`
+release is archived at `10.5281/zenodo.20532458`.
 
 ## Acknowledgements
 

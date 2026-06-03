@@ -5,6 +5,9 @@ authors:
   - family-names: Bonfioli
     given-names: Vico
 license: Apache-2.0
+version: v1.0.0
+date-released: "2026-06-04"
+doi: 10.5281/zenodo.20532459
 repository-code: "https://github.com/ElVec1o/five-distance-sharp"
 abstract: "Lean 4 / Mathlib formalization of the Euclidean five-distance theorem g2=5 and the sup-norm gap theorem g_inf <= 2^d+1 with sharpness for d=2 (=5) and d=3 (=9)."
 keywords:
