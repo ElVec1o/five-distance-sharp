@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Sharp five-distance and sup-norm gap theorems for Kronecker sequences (Lean 4 / Mathlib)"
+authors:
+  - family-names: Bonfioli
+    given-names: Vico
+license: Apache-2.0
+repository-code: "https://github.com/ElVec1o/five-distance-sharp"
+abstract: "Lean 4 / Mathlib formalization of the Euclidean five-distance theorem g2=5 and the sup-norm gap theorem g_inf <= 2^d+1 with sharpness for d=2 (=5) and d=3 (=9)."
+keywords:
+  - Lean 4
+  - Mathlib
+  - formalized mathematics
+  - number theory
