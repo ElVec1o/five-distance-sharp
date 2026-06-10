@@ -1,0 +1,123 @@
+version: "v0.3"
+
+project:
+  name: "five-distance-sharp"
+  authors: ["Vico Bonfioli"]
+  license: "Apache-2.0"
+
+sources:
+  - title: "Higher-dimensional gaps for the metric theory of the three-distance theorem (Euclidean five-distance theorem g_2 = 5)"
+    authors: ["Alan Haynes", "Jens Marklof"]
+    id: "IMRN 2022; arXiv:2007.16019"
+    type: "paper"
+    license: ""
+    author_contacted: "no"
+    prior_work: "Not in Mathlib."
+  - title: "On the number of gaps in the sup-norm (sup-norm gap bound g_inf <= 2^d + 1)"
+    authors: ["A. V. Shutov"]
+    id: "Shutov, sup-norm gap theorem"
+    type: "paper"
+    license: ""
+    author_contacted: "no"
+    prior_work: "Not in Mathlib."
+  - title: "Higher-dimensional gap theorems for the maximum metric (sharpness g_inf(2) = 5, g_inf(3) = 9)"
+    authors: ["Alan Haynes", "Juan Ramirez"]
+    id: "arXiv:2010.08842"
+    type: "paper"
+    license: ""
+    author_contacted: "no"
+    prior_work: "Not in Mathlib."
+
+status:
+  scope: >
+    Formalizes (1) the Euclidean five-distance theorem on the 2-torus, g_2 = 5: at most five
+    distinct nearest-neighbour distances, plus an explicit irrational witness attaining exactly 5;
+    (2) the sup-norm gap bound g_inf <= 2^d + 1 in all dimensions; (3) its sharpness for d = 2
+    (value 5) and d = 3 (value 9, via an explicit witness). "Distance" means the genuine
+    nearest-neighbour distance of the orbit {0, a, ..., Na} on the torus in the stated metric;
+    "count" is the cardinality of the set of distinct such distances.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "ThreeGap.EuclideanRecords.nnDistE_count_le_five"
+      file: "ThreeGap/EuclideanFiveDistanceSharp.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: ""
+      literature_dependencies:
+        - statement: "Euclidean five-distance theorem g_2 = 5 (upper bound)"
+          source: "Haynes-Marklof, IMRN 2022"
+    - declaration: "ThreeGap.EuclideanRecords.sharp_attained"
+      file: "ThreeGap/EuclideanFiveDistanceSharpArith.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: ""
+      literature_dependencies:
+        - statement: "Sharpness of g_2 = 5 (an explicit configuration attaining 5)"
+          source: "Haynes-Marklof, IMRN 2022"
+    - declaration: "ThreeGap.SimDirichlet.nnDist_count_unconditional"
+      file: "ThreeGap/SimultaneousDirichlet.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator/config.json"
+      literature_dependencies:
+        - statement: "Sup-norm gap bound g_inf <= 2^d + 1"
+          source: "Shutov"
+    - declaration: "ThreeGap.LinftyRecords3.nine_attained"
+      file: "ThreeGap/LinftyThreeTorusNine.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator/config.json"
+      literature_dependencies:
+        - statement: "Sharpness g_inf(3) = 9 (an explicit configuration attaining 9)"
+          source: "Haynes-Ramirez, arXiv:2010.08842"
+
+automation:
+  methods:
+    - method: "LLM-driven formalization, human-steered"
+      models: ["Anthropic Claude (Opus class)"]
+      framework: "Claude Code (Anthropic Agent SDK)"
+      tool_setup: "Iterative: the human poses targets and sanity-checks; the model writes and repairs the Lean."
+      cost:
+        wall_time: ""
+        spend_usd: ""
+        hardware: "local (Apple Silicon)"
+      prompting_notes: >
+        The human steering this project is not a mathematician and did not write the mathematics;
+        the Lean was produced by the model under human direction and review. Correctness does not
+        rest on that process: every theorem is checked by the Lean 4 kernel and the axiom footprint
+        is reported above.
+  spend_usd: ""
+  notes: >
+    Posted for expert scrutiny precisely because the author cannot fully judge whether the Lean
+    statements faithfully capture the cited theorems rather than weaker variants.
+
+fidelity:
+  divergences: >
+    The d = 3 sharpness witness file (LinftyThreeTorusNine.lean) is long because it is generated
+    from a computed table of balanced residues, so it is verbose rather than conceptual. The
+    "distance" in all statements is the repo's nearest-neighbour distance of the orbit on the torus
+    (sup-norm or Euclidean); see comparator/ for self-contained restatements over Mathlib only.
+
+review:
+  status: "self-reviewed only; not externally reviewed"
+  reviewers: []
+  notes: "Seeking review of statement faithfulness; see Zulip thread in #AI authored projects."
+
+alignment:
+  namespace: "ThreeGap"
+  statements:
+    - source: "g_2 <= 5 (Haynes-Marklof)"
+      lean: "((Finset.range (N+1)).image (nnDistE alpha N)).card <= 5"
+      module: "ThreeGap.EuclideanRecords"
+      status: "faithful (pending external review)"
+      note: "nnDistE = genuine Euclidean nearest-neighbour distance of the orbit; see comparator/."
+    - source: "g_inf <= 2^d + 1 (Shutov)"
+      lean: "((Finset.range (N+1)).image (nnDist alpha N)).card <= 2^d + 1"
+      module: "ThreeGap.SimDirichlet"
+      status: "faithful (pending external review)"
+      note: "nnDist = genuine sup-norm nearest-neighbour distance; see comparator/."
+
+acknowledgements: >
+  Formalization developed by Vico Bonfioli with substantial assistance from Anthropic's Claude.

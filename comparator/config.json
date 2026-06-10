@@ -1,0 +1,9 @@
+{
+  "challenge_module": "Challenge",
+  "theorem_names": [
+    "FiveDistanceSpec.supnorm_count_le",
+    "FiveDistanceSpec.nine_attained_spec"
+  ],
+  "permitted_axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "enable_nanoda": false
+}
