@@ -1,0 +1,54 @@
+name: Comparator
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'comparator/**'
+      - 'ThreeGap/**'
+      - 'ThreeGap.lean'
+      - 'lakefile.toml'
+      - 'lean-toolchain'
+  pull_request:
+    paths:
+      - 'comparator/**'
+      - 'ThreeGap/**'
+      - 'ThreeGap.lean'
+      - 'lakefile.toml'
+      - 'lean-toolchain'
+
+jobs:
+  comparator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Get Mathlib cache
+        run: lake exe cache get
+
+      - name: Build project
+        run: lake build
+
+      - name: Check Challenge.lean (Mathlib only, sorry-stubbed)
+        run: |
+          OUTPUT=$(lake env lean comparator/Challenge.lean 2>&1) || { echo "$OUTPUT"; exit 1; }
+          echo "$OUTPUT"
+          # Only sorry warnings expected
+          if echo "$OUTPUT" | grep -q 'error'; then
+            echo "FAIL: Challenge.lean has errors"
+            exit 1
+          fi
+
+      - name: Check Solution.lean (no sorry)
+        run: |
+          OUTPUT=$(lake env lean comparator/Solution.lean 2>&1) || { echo "$OUTPUT"; exit 1; }
+          echo "$OUTPUT"
+          if echo "$OUTPUT" | grep -q 'sorry'; then
+            echo "FAIL: Solution.lean still has sorry"
+            exit 1
+          fi
